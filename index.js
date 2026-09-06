@@ -3,13 +3,14 @@ const express = require('express');
 const mysql = require('mysql2');
 
 const app = express();
+app.set('view engine', 'ejs');
 const PORT = 3000;
 
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: process.env.DB_PASSWORD,
-  database: 'student'
+  database: 'quanlybanhang'
 });
 
 db.connect((err) => {
@@ -20,8 +21,15 @@ db.connect((err) => {
   console.log('Da ket noi MySQL thanh cong!');
 });
 
-app.get('/', (req, res) => {
-  res.send('Xin chao, server dang chay!');
+app.get('/sanpham', (req, res) => {
+  db.query('SELECT * FROM sanpham', (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Loi truy van database');
+      return;
+    }
+    res.render('sanpham', { sanpham: results });
+  });
 });
 
 app.listen(PORT, () => {
