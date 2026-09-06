@@ -4,6 +4,7 @@ const mysql = require('mysql2');
 
 const app = express();
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true })); 
 const PORT = 3000;
 
 const db = mysql.createConnection({
@@ -29,6 +30,19 @@ app.get('/sanpham', (req, res) => {
       return;
     }
     res.render('sanpham', { sanpham: results });
+  });
+});
+
+app.post('/sanpham', (req, res) => {
+  const { ten_sp, gia, so_luong_ton, danh_muc } = req.body;
+  const sql = 'INSERT INTO sanpham (ten_sp, gia, so_luong_ton, danh_muc) VALUES (?, ?, ?, ?)';
+  db.query(sql, [ten_sp, gia, so_luong_ton, danh_muc], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Loi them san pham');
+      return;
+    }
+    res.redirect('/sanpham');
   });
 });
 
