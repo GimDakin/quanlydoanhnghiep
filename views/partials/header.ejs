@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= typeof title !== 'undefined' ? title : 'MyShop' %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <% if (currentUser) { %>
+  <nav class="navbar">
+    <div class="navbar-left">
+      <span class="navbar-logo">MyShop</span>
+      <a href="/sanpham">Sản phẩm</a>
+      <a href="/khachhang">Khách hàng</a>
+    </div>
+    <div class="navbar-right">
+      <span><%= currentUser.ten %></span>
+      <a href="/dangxuat">Đăng xuất</a>
+    </div>
+  </nav>
+  <% } %>
+  <div class="main-content">

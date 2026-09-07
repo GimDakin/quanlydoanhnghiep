@@ -12,6 +12,10 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public')); 
 app.use(session({ secret: 'day-la-chuoi-bi-mat-cua-ban', resave: false, saveUninitialized: false })); 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.khachhang || null;
+  next();
+});
 const PORT = 3000;
 
 const db = mysql.createConnection({
@@ -37,13 +41,16 @@ function yeuCauDangNhap(req, res, next) {
 }
 
 app.get('/sanpham', yeuCauDangNhap, (req, res) => {
-  db.query('SELECT * FROM sanpham', (err, results) => {
+  const tuKhoa = req.query.search || '';
+  const sql = 'SELECT * FROM sanpham WHERE ten_sp LIKE ?';
+
+  db.query(sql, [`%${tuKhoa}%`], (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).send('Loi truy van database');
       return;
     }
-    res.render('sanpham', { sanpham: results });
+    res.render('sanpham', { sanpham: results, tuKhoa: tuKhoa });
   });
 });
 
@@ -133,6 +140,12 @@ app.post('/dangnhap', (req, res) => {
 
     // Buoc 4: Chuyen huong ve trang san pham
     res.redirect('/sanpham');
+  });
+});
+
+app.get('/dangxuat', (req, res) => {
+  req.session.destroy((err) => {
+    res.redirect('/dangnhap');
   });
 });
 

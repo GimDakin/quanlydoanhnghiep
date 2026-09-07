@@ -1,34 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Quan ly san pham</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <div class="page-container">
-    <h1 class="page-title">Danh sach san pham</h1>
-    <table>
-      <tr>
-        <th>ID</th><th>Ten san pham</th><th>Gia</th><th>Ton kho</th><th>Danh muc</th>
-      </tr>
-      <% sanpham.forEach(function(sp) { %>
-      <tr>
-        <td><%= sp.id %></td>
-        <td><%= sp.ten_sp %></td>
-        <td><%= sp.gia %></td>
-        <td><%= sp.so_luong_ton %></td>
-        <td><%= sp.danh_muc %></td>
-      </tr>
-      <% }); %>
-    </table>
+<%- include('partials/header', { title: 'San pham' }) %>
 
-    <div class="card">
-      <h2>Import san pham tu Excel</h2>
-      <form action="/import-sanpham" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".xlsx,.xls" required>
-        <button type="submit">Import Excel</button>
-      </form>
+<div class="page-container">
+
+  <h1 class="page-title">Danh sach san pham</h1>
+
+  <form action="/sanpham" method="GET" class="search-bar">
+    <input type="text" name="search" placeholder="Tim kiem san pham..." value="<%= tuKhoa %>">
+    <button type="submit">Tim</button>
+  </form>
+
+  <%
+    function mauDanhMuc(danhMuc) {
+      const mauSac = {
+        'Phu kien': { bg: '#e0f2fe', text: '#0369a1' },
+        'Phu kiện': { bg: '#e0f2fe', text: '#0369a1' },
+        'Do trang tri': { bg: '#fce7f3', text: '#be185d' },
+        'Đồ trang trí': { bg: '#fce7f3', text: '#be185d' },
+        'Do gia dung': { bg: '#fef3c7', text: '#92400e' },
+        'Đồ gia dụng': { bg: '#fef3c7', text: '#92400e' },
+        'Do dien tu': { bg: '#ede9fe', text: '#5b21b6' },
+        'Đồ điện tử': { bg: '#ede9fe', text: '#5b21b6' },
+        'Đồ dùng cá nhân': { bg: '#dcfce7', text: '#166534' }
+      };
+      return mauSac[danhMuc] || { bg: '#f1f5f9', text: '#475569' };
+    }
+  %>
+
+  <div class="product-grid">
+    <% sanpham.forEach(function(sp) {
+      const mau = mauDanhMuc(sp.danh_muc);
+    %>
+    <div class="product-card">
+      <div class="product-image" style="background: <%= mau.text %>;">
+        <%= sp.ten_sp.charAt(0).toUpperCase() %>
+      </div>
+      <div class="product-info">
+        <div class="product-name"><%= sp.ten_sp %></div>
+        <div class="product-price"><%= Number(sp.gia).toLocaleString('vi-VN') %>đ</div>
+        <div class="product-stock">Ton kho: <%= sp.so_luong_ton %></div>
+        <span class="category-badge" style="background: <%= mau.bg %>; color: <%= mau.text %>;">
+          <%= sp.danh_muc %>
+        </span>
+      </div>
     </div>
+    <% }); %>
   </div>
-</body>
-</html>
+
+  <div class="card">
+    <h2>Nhap san pham so luong lon</h2>
+    <form action="/import-sanpham" method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".xlsx,.xls" required>
+      <button type="submit">Import</button>
+    </form>
+  </div>
+
+</div>
+
+<%- include('partials/footer') %>
