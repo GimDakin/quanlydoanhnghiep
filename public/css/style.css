@@ -1,0 +1,159 @@
+/* ===== Reset & Font chung ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+/* ===== Trang dang nhap / dang ky ===== */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-box {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  width: 350px;
+}
+
+.auth-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2c3e50;
+}
+
+.auth-box label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 18px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: #2c7a7b;
+}
+
+.auth-box button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2c7a7b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.auth-box button:hover {
+  background-color: #235f60;
+}
+
+.auth-box .switch-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.auth-box .switch-link a {
+  color: #2c7a7b;
+  text-decoration: none;
+}
+
+/* ===== Trang san pham ===== */
+.page-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.page-title {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  margin-bottom: 40px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+th {
+  background-color: #2c3e50;
+  color: white;
+  font-weight: 500;
+}
+
+tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+tr:hover {
+  background-color: #eef6f6;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  margin-bottom: 30px;
+}
+
+.card h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.card button {
+  padding: 10px 25px;
+  background-color: #2c7a7b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background-color: #235f60;
+}

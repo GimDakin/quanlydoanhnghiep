@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Đăng nhập</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-box">
+      <h2>Đăng nhập</h2>
+      <form action="/dangnhap" method="POST">
+        <label>Email:</label>
+        <input type="email" name="email" required>
+        <label>Mật khẩu:</label>
+        <input type="password" name="mat_khau" required>
+        <button type="submit">Dang nhap</button>
+      </form>
+      <div class="switch-link">
+        Chưa có tài khoản? <a href="/dangky">Đăng ký</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

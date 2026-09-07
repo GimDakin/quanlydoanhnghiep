@@ -54,3 +54,8 @@ VALUES ('Tai nghe Bluetooth Mini', 150000, 50, 'Phu kien'),
 SELECT * FROM khachhang;
 
 SELECT * FROM sanpham;
+
+ALTER TABLE khachhang ADD UNIQUE (email);
+ALTER TABLE khachhang ADD COLUMN mat_khau VARCHAR(255);
+ALTER TABLE khachhang ADD COLUMN so_du_vi INT DEFAULT 0;
+ALTER TABLE khachhang ADD COLUMN hang_thanh_vien VARCHAR(20) DEFAULT 'Thuong'; 
