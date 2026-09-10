@@ -46,6 +46,7 @@
     <% }); %>
   </div>
 
+  <% if (currentUser && currentUser.vai_tro === 'admin') { %>
   <div class="card">
     <h2>Nhap san pham so luong lon</h2>
     <form action="/import-sanpham" method="POST" enctype="multipart/form-data">
@@ -53,6 +54,7 @@
       <button type="submit">Import</button>
     </form>
   </div>
+  <% } %>
 
 </div>
 

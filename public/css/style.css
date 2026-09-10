@@ -273,3 +273,42 @@ tr:hover {
   font-size: 12px;
   font-weight: 500;
 }
+/* ===== Thanh tim kiem ===== */
+.search-bar {
+  display: flex;
+  max-width: 500px;
+  margin: 0 auto 35px;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  padding: 6px 6px 6px 20px;
+  align-items: center;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  padding: 10px 0;
+  font-size: 14px;
+  background: transparent;
+}
+
+.search-bar input:focus {
+  outline: none;
+}
+
+.search-bar button {
+  padding: 10px 24px;
+  background-color: #2c7a7b;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.search-bar button:hover {
+  background-color: #235f60;
+}

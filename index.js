@@ -54,7 +54,14 @@ app.get('/sanpham', yeuCauDangNhap, (req, res) => {
   });
 });
 
-app.post('/sanpham', yeuCauDangNhap, (req, res) => {
+function yeuCauAdmin(req, res, next) {
+  if (!req.session.khachhang || req.session.khachhang.vai_tro !== 'admin') {
+    return res.status(403).send('Ban khong co quyen truy cap trang nay');
+  }
+  next();
+}
+
+app.post('/sanpham', yeuCauDangNhap, yeuCauAdmin, (req, res) => {
   const { ten_sp, gia, so_luong_ton, danh_muc } = req.body;
   const sql = 'INSERT INTO sanpham (ten_sp, gia, so_luong_ton, danh_muc) VALUES (?, ?, ?, ?)';
   db.query(sql, [ten_sp, gia, so_luong_ton, danh_muc], (err, result) => {
@@ -67,7 +74,7 @@ app.post('/sanpham', yeuCauDangNhap, (req, res) => {
   });
 });
 
-app.post('/import-sanpham', yeuCauDangNhap, upload.single('file'), (req, res) => {
+app.post('/import-sanpham', yeuCauDangNhap, yeuCauAdmin, upload.single('file'), (req, res) => {
   const workbook = xlsx.readFile(req.file.path);
   const sheetName = workbook.SheetNames[0];
   const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
