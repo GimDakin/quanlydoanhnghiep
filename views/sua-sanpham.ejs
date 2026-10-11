@@ -1,0 +1,19 @@
+<%- include('partials/header', { title: 'Sửa sản phẩm' }) %>
+<div class="page-container card">
+  <h1>Sửa sản phẩm #<%= sp.id %></h1>
+  <p>Tồn kho là số lượng còn có thể bán, đã trừ các đơn đặt thành công. Đơn cũ giữ tên và giá lúc mua.</p>
+  <form action="/admin/sanpham/<%= sp.id %>/sua" method="POST">
+    <input type="hidden" name="_csrf" value="<%= cartCsrf %>">
+    <input type="hidden" name="version" value="<%= version %>">
+    <label>Tên sản phẩm <input name="ten_sp" value="<%= sp.ten_sp %>" maxlength="150" required></label>
+    <label>Giá (đ) <input name="gia" type="number" value="<%= sp.gia %>" min="0" max="2147483647" step="1" required></label>
+    <label>Tồn kho còn bán <input name="so_luong_ton" type="number" value="<%= sp.so_luong_ton %>" min="0" max="2147483647" step="1" required></label>
+    <label>Danh mục <input name="danh_muc" value="<%= sp.danh_muc || '' %>" maxlength="100"></label>
+    <label>Thương hiệu <input name="thuong_hieu" value="<%= sp.thuong_hieu || '' %>" maxlength="100"></label>
+    <label>Từ khóa <input name="tu_khoa" value="<%= sp.tu_khoa || '' %>" maxlength="500"></label>
+    <label>Mô tả <textarea name="mo_ta" maxlength="10000"><%= sp.mo_ta || '' %></textarea></label>
+    <button type="submit">Lưu thay đổi</button>
+  </form>
+  <a href="/sanpham/<%= sp.id %>">Quay lại sản phẩm</a>
+</div>
+<%- include('partials/footer') %>

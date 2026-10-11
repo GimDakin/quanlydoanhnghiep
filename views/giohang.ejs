@@ -1,0 +1,37 @@
+<%- include('partials/header', { title: 'Giỏ hàng' }) %>
+<div class="page-container">
+  <h1>Giỏ hàng</h1>
+  <% if (!items.length) { %><p>Giỏ hàng đang trống. <a href="/sanpham">Chọn sản phẩm</a></p><% } %>
+  <% items.forEach(p => { %>
+  <article class="card">
+    <h2><%= p.ten_sp %></h2>
+    <p><%= p.gia.toLocaleString('vi-VN') %>đ × <%= p.qty %> — Tồn kho: <%= p.so_luong_ton %></p>
+    <% if (p.qty > p.so_luong_ton) { %><p>Không đủ tồn kho. Hãy giảm số lượng hoặc xóa sản phẩm.</p><% } %>
+    <form action="/giohang/capnhat" method="POST">
+      <input type="hidden" name="_csrf" value="<%= cartCsrf %>"><input type="hidden" name="id" value="<%= p.id %>">
+      <label>Số lượng <input name="qty" type="number" min="1" max="99" step="1" value="<%= p.qty %>" required></label>
+      <button type="submit">Cập nhật</button>
+    </form>
+    <form action="/giohang/xoa" method="POST">
+      <input type="hidden" name="_csrf" value="<%= cartCsrf %>"><input type="hidden" name="id" value="<%= p.id %>">
+      <button type="submit">Xóa</button>
+    </form>
+  </article>
+  <% }); %>
+  <% if (items.length) { %>
+  <div class="card">
+    <h2>Tạm tính: <%= total.toLocaleString('vi-VN') %>đ</h2>
+    <p>Giá và tồn kho được kiểm tra lại khi đặt hàng. Demo chưa tính phí vận chuyển.</p>
+    <h2>Đặt hàng — thanh toán khi nhận hàng (COD)</h2>
+    <form action="/dathang" method="POST">
+      <input type="hidden" name="_csrf" value="<%= cartCsrf %>">
+      <input type="hidden" name="checkout_token" value="<%= checkoutToken %>">
+      <label>Tên người nhận <input name="ten_nguoi_nhan" maxlength="100" required></label>
+      <label>Số điện thoại <input name="sdt_nguoi_nhan" type="tel" maxlength="20" required></label>
+      <label>Địa chỉ giao <textarea name="dia_chi_giao" maxlength="500" required></textarea></label>
+      <button type="submit" <%= items.some(p => p.qty > p.so_luong_ton) ? 'disabled' : '' %>>Xác nhận đặt hàng COD</button>
+    </form>
+  </div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

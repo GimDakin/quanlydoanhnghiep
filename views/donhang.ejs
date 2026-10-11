@@ -1,0 +1,22 @@
+<%- include('partials/header', { title: admin ? 'Quản lý đơn' : 'Đơn của tôi' }) %>
+<div class="page-container">
+  <h1><%= admin ? 'Quản lý đơn hàng' : 'Đơn hàng của tôi' %></h1>
+  <p>Hiển thị tối đa 100 đơn gần nhất.</p>
+  <% if (!orders.length) { %><p>Chưa có đơn hàng.</p><% } %>
+  <% orders.forEach(order => { %>
+  <article class="card">
+    <h2><a href="/donhang/<%= order.id %>">Đơn #<%= order.id %></a></h2>
+    <p><%= Number(order.tong_tien).toLocaleString('vi-VN') %>đ — <%= order.trang_thai %></p>
+    <% if (admin && transitions[order.trang_thai]?.length) { %>
+      <form action="/admin/donhang/<%= order.id %>/trangthai" method="POST">
+        <input type="hidden" name="_csrf" value="<%= cartCsrf %>">
+        <label>Chuyển trạng thái <select name="trang_thai">
+          <% transitions[order.trang_thai].forEach(status => { %><option value="<%= status %>"><%= status %></option><% }); %>
+        </select></label>
+        <button type="submit">Cập nhật</button>
+      </form>
+    <% } %>
+  </article>
+  <% }); %>
+</div>
+<%- include('partials/footer') %>

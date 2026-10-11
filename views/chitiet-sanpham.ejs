@@ -1,11 +1,18 @@
 <%- include('partials/header', { title: sp.ten_sp }) %>
 <div class="page-container card">
   <a href="/sanpham">← Sản phẩm</a>
+  <% if (currentUser.vai_tro === 'admin') { %><a href="/admin/sanpham/<%= sp.id %>/sua">Sửa sản phẩm</a><% } %>
   <h1><%= sp.ten_sp %></h1>
   <p><%= Number(sp.gia).toLocaleString('vi-VN') %>đ</p>
   <p>Danh mục: <%= sp.danh_muc || 'Chưa cập nhật' %></p>
   <p>Thương hiệu: <%= sp.thuong_hieu || 'Chưa cập nhật' %></p>
   <p><%= sp.mo_ta || 'Chưa có mô tả sản phẩm.' %></p>
   <p>Tồn kho: <%= sp.so_luong_ton %></p>
+<form action="/giohang/them" method="POST">
+          <input type="hidden" name="_csrf" value="<%= cartCsrf %>">
+          <input type="hidden" name="id" value="<%= sp.id %>">
+          <input type="hidden" name="qty" value="1">
+          <button type="submit" <%= sp.so_luong_ton > 0 ? '' : 'disabled' %>>Thêm vào giỏ</button>
+        </form>
 </div>
 <%- include('partials/footer') %>

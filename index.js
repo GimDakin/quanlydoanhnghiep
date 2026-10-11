@@ -31,6 +31,9 @@ const db = mysql.createPool({
 });
 
 
+app.use(require('./src/orders').createOrderRouter(db));
+app.use(require('./src/admin-products').createProductRouter(db));
+
 function yeuCauDangNhap(req, res, next) {
   if (!req.session.khachhang) {
     return res.redirect('/dangnhap');

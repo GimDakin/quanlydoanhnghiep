@@ -37,7 +37,14 @@
       <div class="product-info">
         <div class="product-name"><a href="/sanpham/<%= sp.id %>"><%= sp.ten_sp %></a></div>
         <div class="product-price"><%= Number(sp.gia).toLocaleString('vi-VN') %>đ</div>
+        <% if (currentUser.vai_tro === 'admin') { %><a href="/admin/sanpham/<%= sp.id %>/sua">Sửa sản phẩm</a><% } %>
         <div class="product-stock">Ton kho: <%= sp.so_luong_ton %></div>
+        <form action="/giohang/them" method="POST">
+          <input type="hidden" name="_csrf" value="<%= cartCsrf %>">
+          <input type="hidden" name="id" value="<%= sp.id %>">
+          <input type="hidden" name="qty" value="1">
+          <button type="submit" <%= sp.so_luong_ton > 0 ? '' : 'disabled' %>>Thêm vào giỏ</button>
+        </form>
         <span class="category-badge" style="background: <%= mau.bg %>; color: <%= mau.text %>;">
           <%= sp.danh_muc %>
         </span>

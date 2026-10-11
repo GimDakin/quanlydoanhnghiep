@@ -21,7 +21,12 @@ form.addEventListener('submit', async event => {
       const link = document.createElement('a'); link.href = `/sanpham/${product.id}`; link.textContent = product.ten_sp;
       const price = document.createElement('p'); price.textContent = `${product.gia.toLocaleString('vi-VN')}đ`;
       const reason = document.createElement('p'); reason.textContent = product.reasons.join(' • ');
-      card.append(link, price, reason); results.append(card);
+      const add = document.createElement('form'); add.action = '/giohang/them'; add.method = 'POST';
+      for (const [name, value] of Object.entries({ id: product.id, qty: 1, _csrf: document.querySelector('meta[name="cart-csrf"]').content })) {
+        const input = document.createElement('input'); input.type = 'hidden'; input.name = name; input.value = value; add.append(input);
+      }
+      const buy = document.createElement('button'); buy.type = 'submit'; buy.textContent = 'Thêm vào giỏ'; add.append(buy);
+      card.append(link, price, reason, add); results.append(card);
     }
   } catch (error) { status.textContent = error.message || 'Không thể tải gợi ý.'; }
   finally { buttons.forEach(button => { button.disabled = false; }); }

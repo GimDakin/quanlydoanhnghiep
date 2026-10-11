@@ -1,0 +1,19 @@
+<%- include('partials/header', { title: 'Đơn #' + order.id }) %>
+<div class="page-container card">
+  <h1>Đơn #<%= order.id %></h1>
+  <p>Trạng thái: <%= order.trang_thai %> — Thanh toán: <%= order.phuong_thuc_thanh_toan %></p>
+  <p>Người nhận: <%= order.ten_nguoi_nhan || 'Chưa có' %></p>
+  <p>Số điện thoại: <%= order.sdt_nguoi_nhan || 'Chưa có' %></p>
+  <p>Địa chỉ: <%= order.dia_chi_giao || 'Chưa có' %></p>
+  <% details.forEach(p => { %><p><%= p.ten_sp || 'Sản phẩm cũ' %> — <%= Number(p.don_gia).toLocaleString('vi-VN') %>đ × <%= p.so_luong %></p><% }); %>
+  <h2>Tổng: <%= Number(order.tong_tien).toLocaleString('vi-VN') %>đ</h2>
+  <% if (order.trang_thai === 'Moi' && order.checkout_token && Number(order.khachhang_id) === Number(currentUser.id)) { %>
+  <form action="/donhang/<%= order.id %>/huy" method="POST">
+    <input type="hidden" name="_csrf" value="<%= cartCsrf %>">
+    <p>Hủy đơn sẽ hoàn tồn kho và không thể khôi phục đơn này.</p>
+    <button type="submit">Hủy đơn của tôi</button>
+  </form>
+  <% } %>
+  <a href="/donhang">Đơn của tôi</a>
+</div>
+<%- include('partials/footer') %>
