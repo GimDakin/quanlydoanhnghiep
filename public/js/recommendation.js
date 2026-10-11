@@ -3,14 +3,19 @@ form.addEventListener('submit', async event => {
   event.preventDefault();
   const status = document.getElementById('recommendation-status');
   const results = document.getElementById('recommendation-results');
-  const button = form.querySelector('button');
-  button.disabled = true; results.replaceChildren(); status.textContent = 'Đang tìm...';
+  const endpoint = event.submitter?.value === 'manual' ? '/api/goiy' : '/api/goiy-ai';
+  const buttons = [...form.querySelectorAll('button')];
+  buttons.forEach(button => { button.disabled = true; }); results.replaceChildren(); status.textContent = 'Đang tìm...';
   try {
     const data = Object.fromEntries(new FormData(form));
-    const response = await fetch('/api/goiy', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+    const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error);
     status.textContent = payload.products.length ? `Tìm thấy ${payload.products.length} gợi ý.` : 'Không có sản phẩm khớp. Thử từ khóa ngắn hơn hoặc đổi ngân sách.';
+    if (payload.criteria) {
+      const budget = payload.criteria.budget === null ? 'chưa giới hạn' : `${payload.criteria.budget.toLocaleString('vi-VN')}đ`;
+      status.textContent = `AI hiểu: ${payload.criteria.query}; ngân sách tối đa: ${budget}. ${status.textContent}`;
+    }
     for (const product of payload.products) {
       const card = document.createElement('article'); card.className = 'product-card product-info';
       const link = document.createElement('a'); link.href = `/sanpham/${product.id}`; link.textContent = product.ten_sp;
@@ -19,5 +24,5 @@ form.addEventListener('submit', async event => {
       card.append(link, price, reason); results.append(card);
     }
   } catch (error) { status.textContent = error.message || 'Không thể tải gợi ý.'; }
-  finally { button.disabled = false; }
+  finally { buttons.forEach(button => { button.disabled = false; }); }
 });

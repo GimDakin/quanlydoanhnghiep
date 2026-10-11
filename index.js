@@ -94,7 +94,9 @@ app.post('/import-sanpham', yeuCauDangNhap, yeuCauAdmin, upload.single('file'), 
   });
 });
 
-// Sprint 1: deterministic recommendations; no external AI request yet.
+app.use(require('./src/ai-shopping').createAIRouter(db));
+
+// Manual recommendations remain available independently of AI.
 const { parseCriteria, recommend } = require('./src/recommendation');
 app.get('/', (req, res) => res.redirect('/sanpham'));
 app.get('/sanpham/:id', yeuCauDangNhap, (req, res) => {
