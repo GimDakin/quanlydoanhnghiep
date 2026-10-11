@@ -1,0 +1,15 @@
+<%- include('partials/header', { title: 'Gợi ý mua sắm' }) %>
+<div class="page-container card">
+  <h1>Gợi ý mua sắm theo nhu cầu</h1>
+  <p>Sprint 1: lọc ngân sách và xếp hạng từ khóa, chưa sử dụng AI API. Danh mục phải khớp tên trong kho.</p>
+  <form id="recommendation-form">
+    <label>Nhu cầu / từ khóa <input name="query" maxlength="500" placeholder="tai nghe bluetooth"></label>
+    <label>Ngân sách tối đa (đ) <input name="budget" type="number" min="0" max="2147483647" step="1"></label>
+    <label>Danh mục (không bắt buộc) <input name="category" maxlength="100"></label>
+    <button type="submit">Tìm gợi ý</button>
+  </form>
+  <p id="recommendation-status" role="status" aria-live="polite"></p>
+  <div id="recommendation-results" class="product-grid"></div>
+</div>
+<script src="/js/recommendation.js" defer></script>
+<%- include('partials/footer') %>

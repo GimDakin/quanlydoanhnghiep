@@ -35,7 +35,7 @@
         <%= sp.ten_sp.charAt(0).toUpperCase() %>
       </div>
       <div class="product-info">
-        <div class="product-name"><%= sp.ten_sp %></div>
+        <div class="product-name"><a href="/sanpham/<%= sp.id %>"><%= sp.ten_sp %></a></div>
         <div class="product-price"><%= Number(sp.gia).toLocaleString('vi-VN') %>đ</div>
         <div class="product-stock">Ton kho: <%= sp.so_luong_ton %></div>
         <span class="category-badge" style="background: <%= mau.bg %>; color: <%= mau.text %>;">
@@ -48,6 +48,17 @@
 
   <% if (currentUser && currentUser.vai_tro === 'admin') { %>
   <div class="card">
+    <h2>Thêm sản phẩm</h2>
+    <form action="/sanpham" method="POST">
+      <input name="ten_sp" placeholder="Tên sản phẩm" maxlength="150" required>
+      <input name="gia" type="number" min="0" max="2147483647" step="1" placeholder="Giá (đ)" required>
+      <input name="so_luong_ton" type="number" min="0" max="2147483647" step="1" placeholder="Tồn kho" required>
+      <input name="danh_muc" maxlength="100" placeholder="Danh mục">
+      <input name="thuong_hieu" maxlength="100" placeholder="Thương hiệu">
+      <input name="tu_khoa" maxlength="500" placeholder="Từ khóa, ví dụ: bluetooth pin game">
+      <textarea name="mo_ta" maxlength="10000" placeholder="Mô tả"></textarea>
+      <button type="submit">Thêm sản phẩm</button>
+    </form>
     <h2>Nhap san pham so luong lon</h2>
     <form action="/import-sanpham" method="POST" enctype="multipart/form-data">
       <input type="file" name="file" accept=".xlsx,.xls" required>

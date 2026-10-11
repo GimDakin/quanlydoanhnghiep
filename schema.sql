@@ -1,25 +1,21 @@
--- Active: 1741678872905@@127.0.0.1@3306@quanlybanhang
-CREATE DATABASE quanlybanhang
-
-USE quanlybanhang
-
-CREATE TABLE khachhang (
+-- Fresh-install reference ONLY. For existing databases use npm run migrate.
+-- Create/select your database before running this file. Not safe to rerun ADD COLUMN statements.
+-- Each statement separated by the marker below. No seed or privilege changes.
+CREATE TABLE IF NOT EXISTS khachhang (
   id INT AUTO_INCREMENT PRIMARY KEY,
   ten VARCHAR(100) NOT NULL,
   sdt VARCHAR(15),
   email VARCHAR(100),
   diachi VARCHAR(255)
 );
-
-CREATE TABLE sanpham (
+CREATE TABLE IF NOT EXISTS sanpham (
   id INT AUTO_INCREMENT PRIMARY KEY,
   ten_sp VARCHAR(150) NOT NULL,
   gia INT NOT NULL,
   so_luong_ton INT DEFAULT 0,
   danh_muc VARCHAR(100)
 );
-
-CREATE TABLE donhang (
+CREATE TABLE IF NOT EXISTS donhang (
   id INT AUTO_INCREMENT PRIMARY KEY,
   khachhang_id INT,
   ngay_dat DATE,
@@ -27,8 +23,7 @@ CREATE TABLE donhang (
   tong_tien INT DEFAULT 0,
   FOREIGN KEY (khachhang_id) REFERENCES khachhang(id)
 );
-
-CREATE TABLE chitietdonhang (
+CREATE TABLE IF NOT EXISTS chitietdonhang (
   id INT AUTO_INCREMENT PRIMARY KEY,
   donhang_id INT,
   sanpham_id INT,
@@ -38,27 +33,13 @@ CREATE TABLE chitietdonhang (
   FOREIGN KEY (sanpham_id) REFERENCES sanpham(id)
 );
 
-SHOW TABLES;
-
-INSERT INTO khachhang (ten, sdt, email, diachi) 
-VALUES ('Nguyen Van A', '0912345678', 'a@gmail.com', 'Ha Noi'), 
-('Tran Thi B', '0987654321', 'b@gmail.com', 'TP.HCM'), 
-('Le Van C', '0909090909', 'c@gmail.com', 'Da Nang');
-
-INSERT INTO sanpham (ten_sp, gia, so_luong_ton, danh_muc) 
-VALUES ('Tai nghe Bluetooth Mini', 150000, 50, 'Phu kien'), 
-('Den ngu hinh mat trang', 89000, 30, 'Do trang tri'), 
-('Ban tay giu dien thoai', 45000, 100, 'Phu kien'), 
-('Binh giu nhiet 500ml', 120000, 20, 'Do gia dung');
-
-SELECT * FROM khachhang;
-
-SELECT * FROM sanpham;
-
-ALTER TABLE khachhang ADD UNIQUE (email);
-ALTER TABLE khachhang ADD COLUMN mat_khau VARCHAR(255);
+-- Runner checks information_schema before each ADD COLUMN; safe to resume after partial DDL.
+ALTER TABLE khachhang ADD COLUMN mat_khau VARCHAR(255) NULL;
 ALTER TABLE khachhang ADD COLUMN so_du_vi INT DEFAULT 0;
-ALTER TABLE khachhang ADD COLUMN hang_thanh_vien VARCHAR(20) DEFAULT 'Thuong'; 
+ALTER TABLE khachhang ADD COLUMN hang_thanh_vien VARCHAR(20) DEFAULT 'Thuong';
 ALTER TABLE khachhang ADD COLUMN vai_tro VARCHAR(20) DEFAULT 'khach';
-SELECT * FROM khachhang;
-UPDATE khachhang SET vai_tro = 'admin' WHERE email = 'buigio1993@gmail.com';
+ALTER TABLE sanpham ADD COLUMN mo_ta TEXT NULL;
+ALTER TABLE sanpham ADD COLUMN thuong_hieu VARCHAR(100) NULL;
+ALTER TABLE sanpham ADD COLUMN tu_khoa VARCHAR(500) NULL;
+
+ALTER TABLE khachhang ADD UNIQUE INDEX uq_khachhang_email (email);

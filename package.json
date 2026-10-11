@@ -1,10 +1,14 @@
 {
   "name": "quanlydoanhnghiep",
   "version": "1.0.0",
-  "description": "��#\u0000 \u0000q\u0000u\u0000a\u0000n\u0000l\u0000y\u0000d\u0000o\u0000a\u0000n\u0000h\u0000n\u0000g\u0000h\u0000i\u0000e\u0000p\u0000\r\u0000 \u0000",
+  "description": "Website mua sam voi bo goi y san pham",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "node --test",
+    "migrate": "node scripts/migrate.js",
+    "migrate:check": "node scripts/migrate.js --check"
   },
   "repository": {
     "type": "git",
@@ -27,5 +31,8 @@
     "multer": "^2.3.0",
     "mysql2": "^3.24.3",
     "xlsx": "^0.18.5"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
